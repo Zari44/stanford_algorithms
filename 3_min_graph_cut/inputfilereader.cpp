@@ -44,7 +44,7 @@ void InputFileReader::parse_input_line(std::string line, Graph& graph_out){
         graph_out.N_init.push_back(integer-1);
     }
 
-    vint edges;
+    std::vector<unsigned int> edges;
     while ( (pos = line.find(delimiter)) != std::string::npos){
         const std::string str_int = line.substr(0, pos);
         line.erase(0, pos + delimiter.length());

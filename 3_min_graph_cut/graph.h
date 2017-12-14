@@ -10,18 +10,14 @@
 
 using namespace std;
 
-typedef unsigned int uint;
-typedef std::vector<unsigned int> vint;
-typedef std::vector<vint> vvector;
-typedef std::vector<std::string> vstring;
-
 class Graph
 {
 public:
       Graph();
       Graph copy();
-      vint N_init; //vertices
-      vvector M_init; //edges
+      Graph& operator=( const Graph& graph );
+      std::vector<unsigned int> N_init; //vertices
+      std::vector<std::vector<unsigned int> > M_init; //edges
       void copyGraphToInitialState();
       void printEdges();
       void printVertices();
@@ -29,14 +25,14 @@ public:
       unsigned int getNumberOfEdges();
       unsigned int getNumberOfVertices();
       unsigned int getMinimumCutOneIteration();
-      vint N; //vertices
-      vvector M;//edges
+      std::vector<unsigned int> N; //vertices
+      std::vector<std::vector<unsigned int> > M;//edges
       struct Edge;/*{
-          uint ni1;
-          uint ni2;
+          unsigned int ni1;
+          unsigned int ni2;
       };*/
     private:
-      void printVectorInt(vint);
+      void printVectorInt(std::vector<unsigned int>);
       void contractEdge();
       void concatinateEdges();
       void destroyVertex();
@@ -46,8 +42,8 @@ public:
 };
 
 struct Graph::Edge{
-    uint ni1;
-    uint ni2;
+    unsigned int ni1;
+    unsigned int ni2;
 };
 
 #endif // GRAPH_H
