@@ -54,7 +54,7 @@ void InputFileReader::parse_input_line(std::string line, Graph& graph_out){
     }
 
     graph_out.M_init.push_back(edges);
-    graph_out.copy_graph_to_initial_state();
+    graph_out.copyGraphToInitialState();
 }
 
 void InputFileReader::open_and_read_input_data_file(const string& input_file_name, Graph& graph_out)

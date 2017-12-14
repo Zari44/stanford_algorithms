@@ -17,35 +17,37 @@ typedef std::vector<std::string> vstring;
 
 class Graph
 {
-      void parse_input_line(string);
-      void print_vector_int(vint);
-      void get_random_edge();
-      void edge_contraction();
-      void concatinate_edges();
-      void destroy_vertex();
-      void destroy_self_loop();
-      uint one_run_get_minimum_cut();
-
-      vint N;
-      vvector M;
-
-
-      struct Edge{
+public:
+      Graph();
+      Graph copy();
+      vint N_init; //vertices
+      vvector M_init; //edges
+      void copyGraphToInitialState();
+      void printEdges();
+      void printVertices();
+      unsigned int getMinimumCut(unsigned int number_of_runs);
+      unsigned int getNumberOfEdges();
+      unsigned int getNumberOfVertices();
+      unsigned int getMinimumCutOneIteration();
+      vint N; //vertices
+      vvector M;//edges
+      struct Edge;/*{
           uint ni1;
           uint ni2;
-      } edge;
+      };*/
+    private:
+      void printVectorInt(vint);
+      void contractEdge();
+      void concatinateEdges();
+      void destroyVertex();
+      void destroySelfLoop();
+      void getRandomEdge();
 
-    public:
-      vint N_init;
-      vvector M_init;
-      void copy_graph_to_initial_state();
-      Graph(string file_name);
-      Graph();
-      uint get_minimum_cut(uint number_of_runs);
-      void print_edges();
-      void print_vertices();
-      uint get_number_of_edges();
-      uint get_number_of_vertices();
+};
+
+struct Graph::Edge{
+    uint ni1;
+    uint ni2;
 };
 
 #endif // GRAPH_H
