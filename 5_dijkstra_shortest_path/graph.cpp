@@ -11,23 +11,26 @@ Graph::Graph(unsigned int number_of_vertices) :
 void Graph::print()
 {
     cout << "Edges :\n";
-    for (unsigned int i = 0; i<_number_of_vertices; ++i){
+    for (unsigned int i = 0; i<_number_of_vertices; ++i)
+    {
         unsigned int len = (_edges->at(i)).size();
-        for (unsigned int j = 0; j<len; ++j){
+        for (unsigned int j = 0; j<len; ++j)
             cout << ((_edges->at(i)).at(j)).m_head << "," << ((_edges->at(i)).at(j)).m_cost << " ";
-        }
         cout << endl;
     }
 }
 
-unsigned int Graph::getShortestPathVertex(const vector<unsigned int>& dist, const vector<unsigned int>& unvisited){
+unsigned int Graph::getShortestPathVertex(const vector<unsigned int>& dist, const vector<unsigned int>& unvisited)
+{
 
     unsigned int shortest_path = 1000000;
     unsigned int shortest_index = 0;
 
-    for (unsigned int i = 0; i < unvisited.size(); ++i){
+    for (unsigned int i = 0; i < unvisited.size(); ++i)
+    {
         unsigned int j = unvisited[i];
-        if (dist[j] < shortest_path){
+        if (dist[j] < shortest_path)
+        {
             shortest_path = dist[j];
             shortest_index = j;
         }
@@ -36,40 +39,51 @@ unsigned int Graph::getShortestPathVertex(const vector<unsigned int>& dist, cons
     return shortest_index;
 }
 
-unsigned int Graph::get_shortest_path(unsigned int s, unsigned int e){
+unsigned int Graph::computeShortestPath(unsigned int start, unsigned int end)
+{
+    vector<unsigned int> unvisited(_number_of_vertices);
+    vector<unsigned int> dist(_number_of_vertices);
 
-    vector<unsigned int> unvisited(_number_of_vertices);// = new vector<unsigned int>[V];
-    vector<unsigned int> dist(_number_of_vertices);// = new vector<unsigned int>[V];
-
-    for (unsigned int i = 0; i < _number_of_vertices; ++i){
+    for (unsigned int i = 0; i < _number_of_vertices; ++i)
+    {
         unvisited[i] = i;
         dist[i] = 1000000;
     }
 
     // starting vertex
-    dist[s] = 0;
+    dist[start] = 0;
 
-    while (unvisited.size() != 0){
+    while (unvisited.size() != 0)
+    {
         unsigned int u = getShortestPathVertex(dist, unvisited);
-//		cout << "Shortest path vertex is : " << u << endl;
         vector<Edge> adjecent ( (*_edges).at(u) );
 
-//		cout << "Unvisited size: " << unvisited.size() << endl;
         unsigned int index_to_delete = find(unvisited.begin(), unvisited.end(), u) - unvisited.begin();
         unvisited.erase(unvisited.begin() + index_to_delete);
-//		cout << "Delete element of unvisited\nUnvisited size: " << unvisited.size() << endl;
 
-        for (unsigned int i = 0; i < adjecent.size(); ++i){
+        for (unsigned int i = 0; i < adjecent.size(); ++i)
+        {
             Edge edge = adjecent[i];
-            if (dist[edge.m_head] > dist[u] + edge.m_cost){
+            if (dist[edge.m_head] > dist[u] + edge.m_cost)
                 dist[edge.m_head] = dist[u] + edge.m_cost;
-            }
         }
     }
 
-    return dist[e];
+    return dist[end];
 
 }
+
+unsigned int Graph::getNumberOfVertices()
+{
+    return _number_of_vertices;
+}
+
+std::vector<Graph::Edge> Graph::getVerticesAdjecentToVertexOfIndex(unsigned int vertex_index)
+{
+    return _edges->at(vertex_index);
+}
+
+
 
 //Graph::Graph()
 //{

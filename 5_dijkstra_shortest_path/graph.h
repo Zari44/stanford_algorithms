@@ -61,20 +61,23 @@
 class Graph
 {
     private:
-        void parse_input_line(std::string);
         unsigned int _number_of_vertices;
         unsigned int getShortestPathVertex(const std::vector<unsigned int>& dist, const std::vector<unsigned int>& unvisited);
     public:
-        struct Edge{
-            unsigned int m_head;
-            unsigned int m_cost;
-        };
-        Graph() {}
-
-        Graph(unsigned int number_of_vertices);Graph(const std::string&, unsigned int);
+        struct Edge;
+        Graph(unsigned int number_of_vertices);
         std::vector<std::vector<Edge> > *_edges;
         void print();
-        unsigned int get_shortest_path(unsigned int s, unsigned int e);
+        unsigned int computeShortestPath(unsigned int start, unsigned int end);
+        unsigned int getNumberOfVertices();// { return _number_of_vertices; }
+        std::vector<Graph::Edge> getVerticesAdjecentToVertexOfIndex(unsigned int vertex_index);
+
+};
+
+struct Graph::Edge
+{
+    unsigned int m_head;
+    unsigned int m_cost;
 };
 
 
