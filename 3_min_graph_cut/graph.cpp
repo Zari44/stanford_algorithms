@@ -5,18 +5,25 @@ Graph::Graph()
 
 }
 
-Graph Graph::copy()
+Graph::Graph(const Graph &graph)
 {
-//    Graph graph_copy;
+    for (const auto& vertex : graph.N)
+        N.push_back(vertex);
 
-//    for
+    for (const auto& vector_of_vertices : graph.M)
+        M.push_back(vector_of_vertices);
 }
 
 Graph& Graph::operator=( const Graph& graph )
 {
-//    x = other.x;
-//    c = other.c;
-//    s = other.s;
+    N.clear();
+    M.clear();
+
+    for (const auto& vertex : graph.N)
+        N.push_back(vertex);
+
+    for (const auto& vector_of_vertices : graph.M)
+        M.push_back(vector_of_vertices);
 
     return *this;
 }
@@ -31,16 +38,19 @@ uint Graph::getNumberOfEdges()
     return number_of_edges / 2;
 }
 
-
 unsigned int Graph::getNumberOfVertices()
 {
     return N.size();
 }
 
-void Graph::copyGraphToInitialState()
+void Graph::addNewVertex(unsigned int vertex_number)
 {
-    this->N = this->N_init;
-    this->M = this->M_init;
+    N.push_back(vertex_number);
+}
+
+void Graph::addNewVectorOfVertices(std::vector<unsigned int>& edge_vertices)
+{
+    M.push_back(edge_vertices);
 }
 
 void Graph::printVector(std::vector<unsigned int> data)

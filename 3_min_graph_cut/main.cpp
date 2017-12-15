@@ -15,9 +15,6 @@ int main()
 
     cout << "Minimum cut is: " << min_cut << endl;
 
-//    graph.printVertices();
-//    graph.printEdges();
-
     return 0;
 }
 

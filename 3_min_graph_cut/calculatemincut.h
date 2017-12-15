@@ -18,7 +18,7 @@ class CalculateMinCut
     static Graph::Vertex getRandomVertexConnectedToVertex(Graph& graph, const Graph::Vertex& adjecent_vertex);
     static void createEdgeWithCorrectVerticesOrder(Graph::Edge& edge, const Graph::Vertex& vertex1, const Graph::Vertex& vertex2);
     static void reatechEdgesFromDestroyedVertexToTheVertexThatIsLeft(Graph& graph, const Graph::Vertex& vertex_to_destroy, const Graph::Vertex& vertex_that_is_left);
-
+    static unsigned int findNewMinCut(unsigned int& min_cut, unsigned int cut_number);
 public:
 //    CalculateMinCut();
     static unsigned int calculate_min_cut(Graph& graph, unsigned int iterations);

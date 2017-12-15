@@ -9,18 +9,22 @@ unsigned int CalculateMinCut::calculate_min_cut(Graph& graph, unsigned int itera
     srand(time(0));
     unsigned int min_cut = graph.getNumberOfEdges();
 
+    Graph graph_copy;
     for (unsigned int i = 0; i < iterations; i++)
     {
-        graph.copyGraphToInitialState();
-        const unsigned int number_of_cut_edges = getMinimumCutOneIteration(graph);
-
-        if (number_of_cut_edges < min_cut)
-            min_cut = number_of_cut_edges;
+        graph_copy = graph;
+        findNewMinCut(min_cut, getMinimumCutOneIteration(graph_copy));
     }
 
-    std::cout << "Vertices numbers: " << graph.getVertexNumber(0) << ", " << graph.getVertexNumber(1) << std::endl;
+    std::cout << "Vertices numbers: " << graph_copy.getVertexNumber(0) << ", " << graph_copy.getVertexNumber(1) << std::endl;
 
     return min_cut;
+}
+
+unsigned int CalculateMinCut::findNewMinCut(unsigned int& min_cut, unsigned int cut_number)
+{
+    if (cut_number < min_cut)
+        min_cut = cut_number;
 }
 
 unsigned int CalculateMinCut::getMinimumCutOneIteration(Graph& graph)

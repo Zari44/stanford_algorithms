@@ -41,7 +41,8 @@ void InputFileReader::parse_input_line(std::string line, Graph& graph_out){
         line.erase(0, pos + delimiter.length());
         const uint vertex = atoi(str_int.c_str());
         // count vertices from zero
-        graph_out.N_init.push_back(vertex-1);
+        graph_out.addNewVertex(vertex);
+
     }
 
     std::vector<unsigned int> edges;
@@ -50,11 +51,10 @@ void InputFileReader::parse_input_line(std::string line, Graph& graph_out){
         line.erase(0, pos + delimiter.length());
         const uint vertex = atoi(str_int.c_str());
         // index vertices from zero
-        edges.push_back(vertex-1);
+        edges.push_back(vertex);
     }
 
-    graph_out.M_init.push_back(edges);
-    graph_out.copyGraphToInitialState();
+    graph_out.addNewVectorOfVertices(edges);
 }
 
 void InputFileReader::open_and_read_input_data_file(const string& input_file_name, Graph& graph_out)
