@@ -21,29 +21,30 @@ public:
       void copyGraphToInitialState();
       void printEdges();
       void printVertices();
-      unsigned int getMinimumCut(unsigned int number_of_runs);
       unsigned int getNumberOfEdges();
       unsigned int getNumberOfVertices();
       unsigned int getMinimumCutOneIteration();
       std::vector<unsigned int> N; //vertices
       std::vector<std::vector<unsigned int> > M;//edges
-      struct Edge;/*{
-          unsigned int ni1;
-          unsigned int ni2;
-      };*/
+      struct Edge;
+      struct Vertex;
+      unsigned int getNumberOfEdgesFromVertex(unsigned int vertex_index);
+      unsigned int getVertexNumber(unsigned int row_index, unsigned int column_index);
+      unsigned int getVertexNumber(unsigned int vertices_list_index);
+      void setVertexNumber(unsigned int row_index, unsigned int column_index, unsigned int new_value);
     private:
       void printVectorInt(std::vector<unsigned int>);
-      void contractEdge();
-      void concatinateEdges();
-      void destroyVertex();
-      void destroySelfLoop();
-      void getRandomEdge();
 
 };
 
 struct Graph::Edge{
     unsigned int ni1;
     unsigned int ni2;
+};
+
+struct Graph::Vertex{
+    unsigned int index;
+    unsigned int number;
 };
 
 #endif // GRAPH_H

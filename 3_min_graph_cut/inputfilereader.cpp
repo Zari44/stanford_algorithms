@@ -39,18 +39,18 @@ void InputFileReader::parse_input_line(std::string line, Graph& graph_out){
     {
         const std::string str_int = line.substr(0, pos);
         line.erase(0, pos + delimiter.length());
-        const uint integer = atoi(str_int.c_str());
+        const uint vertex = atoi(str_int.c_str());
         // count vertices from zero
-        graph_out.N_init.push_back(integer-1);
+        graph_out.N_init.push_back(vertex-1);
     }
 
     std::vector<unsigned int> edges;
     while ( (pos = line.find(delimiter)) != std::string::npos){
         const std::string str_int = line.substr(0, pos);
         line.erase(0, pos + delimiter.length());
-        const uint integer = atoi(str_int.c_str());
+        const uint vertex = atoi(str_int.c_str());
         // index vertices from zero
-        edges.push_back(integer-1);
+        edges.push_back(vertex-1);
     }
 
     graph_out.M_init.push_back(edges);
@@ -60,9 +60,11 @@ void InputFileReader::parse_input_line(std::string line, Graph& graph_out){
 void InputFileReader::open_and_read_input_data_file(const string& input_file_name, Graph& graph_out)
 {
     ifstream input_file;
+
     if (open_input_data_file(input_file_name, input_file))
     {
         cout << "Input data file successfully opened." << endl;
+        cout << "------------------------------------" << endl;
         read_input_file_line_by_line(input_file, graph_out);
         input_file.close();
     }

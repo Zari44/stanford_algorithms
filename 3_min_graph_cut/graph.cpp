@@ -67,8 +67,22 @@ void Graph::printVertices()
     cout << "\n";
 }
 
+unsigned int Graph::getNumberOfEdgesFromVertex(unsigned int vertex_index)
+{
+    return M.at(vertex_index).size();
+}
 
+unsigned int Graph::getVertexNumber(unsigned int row_index, unsigned int column_index)
+{
+    return M.at(row_index).at(column_index);
+}
 
+unsigned int Graph::getVertexNumber(unsigned int vertices_list_index)
+{
+    return N.at(vertices_list_index);
+}
 
-
-
+void Graph::setVertexNumber(unsigned int row_index, unsigned int column_index, unsigned int new_value)
+{
+    M.at(row_index).at(column_index) = new_value;
+}

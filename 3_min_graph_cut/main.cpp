@@ -10,11 +10,13 @@ int main()
     Graph graph;
     InputFileReader::open_and_read_input_data_file(file_name, graph);
 
-    unsigned int iteratons = 9;
+    unsigned int iteratons = 20;
     unsigned int min_cut = CalculateMinCut::calculate_min_cut(graph, iteratons);
 
-//    cout << "Minimum cut is: " << graph.getMinimumCut(iteratons) << endl;
     cout << "Minimum cut is: " << min_cut << endl;
+
+//    graph.printVertices();
+//    graph.printEdges();
 
     return 0;
 }
