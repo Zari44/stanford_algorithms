@@ -68,7 +68,7 @@ void CalculateMinCut::contractEdge(Graph& graph, Graph::Edge& edge)
 
 void CalculateMinCut::concatinateEdges(Graph& graph, Graph::Edge& edge)
 {
-    const vint edges_n2(graph.M.at(edge.ni2));
+    const std::vector<unsigned int> edges_n2(graph.M.at(edge.ni2));
     graph.M.at(edge.ni1).insert(graph.M.at(edge.ni1).end(), edges_n2.begin(), edges_n2.end() );
 }
 
@@ -108,7 +108,7 @@ void CalculateMinCut::destroySelfLoop(Graph& graph)
 {
     for (uint i = 0; i < graph.M.size(); i++){
         for (uint j = 0; j < graph.M[i].size(); j++){
-            const vint::iterator iterators_to_remove = remove(graph.M.at(i).begin(), graph.M.at(i).end(), graph.N.at(i));
+            const std::vector<unsigned int>::iterator iterators_to_remove = remove(graph.M.at(i).begin(), graph.M.at(i).end(), graph.N.at(i));
             graph.M.at(i).erase(iterators_to_remove, graph.M.at(i).end());
         }
     }
