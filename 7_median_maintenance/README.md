@@ -1,0 +1,1 @@
+The goal of this problem is to implement the "Median Maintenance" algorithm. The text file contains a list of the integers from 1 to 10000 in unsorted order. It should treated as a stream of numbers, arriving one by one. Letting x_i denote the i-th number of the file, the k-th median m_k is defined as the median of the numbers. 
