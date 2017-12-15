@@ -43,7 +43,7 @@ void Graph::copyGraphToInitialState()
     this->M = this->M_init;
 }
 
-void Graph::printVectorInt(std::vector<unsigned int> data)
+void Graph::printVector(std::vector<unsigned int> data)
 {
     for(auto const& element : data) {
         std::cout << element << " ";
@@ -54,7 +54,7 @@ void Graph::printEdges()
 {
     cout << "Edges :\n";
     for(auto const& vint : this->M) {
-        printVectorInt(vint),	cout << '\n';
+        printVector(vint),	cout << '\n';
     }
 }
 
@@ -86,3 +86,32 @@ void Graph::setVertexNumber(unsigned int row_index, unsigned int column_index, u
 {
     M.at(row_index).at(column_index) = new_value;
 }
+
+void Graph::removeVertexFromGraph(const Graph::Vertex& vertex)
+{
+    N.erase(N.begin() + vertex.index);
+    M.erase(M.begin() + vertex.index);
+}
+
+std::vector<unsigned int> Graph::getVerticesConnectedToVertexOfIndex(unsigned int vertex_index)
+{
+    return M.at(vertex_index);
+}
+
+void Graph::attachVerticesToVertexOfIndex(const std::vector<unsigned int>& vertices_to_attach, unsigned int vertex_index)
+{
+    M.at(vertex_index).insert(M.at(vertex_index).end(), vertices_to_attach.begin(), vertices_to_attach.end() );
+}
+
+void Graph::destroySelfLoops()
+{
+    for (unsigned int i = 0; i < getNumberOfVertices(); i++)
+    {
+        for (unsigned int j = 0; j < getNumberOfEdgesFromVertex(i); j++)
+        {
+            std::vector<unsigned int>::iterator iterators_to_remove = remove(M.at(i).begin(), M.at(i).end(), N.at(i));
+            M.at(i).erase(iterators_to_remove, M.at(i).end());
+        }
+    }
+}
+

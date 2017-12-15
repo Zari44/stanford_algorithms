@@ -41,12 +41,9 @@ bool CalculateMinCut::ifThereAreMoreThanTwoVertices(unsigned int number_of_verti
 
 Graph::Edge CalculateMinCut::getRandomEdge(Graph& graph)
 {
-
-    Graph::Vertex vertex1 = CalculateMinCut::getRandomVertex(graph);
-    Graph::Vertex vertex2 = CalculateMinCut::getRandomVertexConnectedToVertex(graph, vertex1);
-
     Graph::Edge edge;
-    createEdgeWithCorrectVerticesOrder(edge, vertex1, vertex2);
+    edge.vertex1 = CalculateMinCut::getRandomVertex(graph);
+    edge.vertex2 = CalculateMinCut::getRandomVertexConnectedToVertex(graph, edge.vertex1);
 
     return edge;
 }
@@ -56,6 +53,7 @@ Graph::Vertex CalculateMinCut::getRandomVertex(Graph& graph)
     Graph::Vertex vertex;
     vertex.index = rand() % graph.getNumberOfVertices();
     vertex.number = graph.getVertexNumber(vertex.index);
+
     return vertex;
 }
 
@@ -65,9 +63,9 @@ Graph::Vertex CalculateMinCut::getRandomVertexConnectedToVertex(Graph& graph, co
     unsigned int vertex_number_in_graph = graph.getVertexNumber(adjecent_vertex.index, vertex_index_in_edge_array);
 
     Graph::Vertex vertex;
-    for (unsigned int i = 0; i < graph.N.size(); ++i)
+    for (unsigned int i = 0; i < graph.getNumberOfVertices(); ++i)
     {
-        if (graph.N.at(i) == vertex_number_in_graph)
+        if (graph.getVertexNumber(i) == vertex_number_in_graph)
         {
             vertex.index = i;
             break;
@@ -78,84 +76,41 @@ Graph::Vertex CalculateMinCut::getRandomVertexConnectedToVertex(Graph& graph, co
     return vertex;
 }
 
-void CalculateMinCut::createEdgeWithCorrectVerticesOrder(Graph::Edge &edge, const Graph::Vertex& vertex1, const Graph::Vertex& vertex2)
-{
-    // for convenience it is assumed that ni1 is smaller than ni2
-
-    if ( vertex1.number < vertex2.number )
-    {
-        edge.ni1 = vertex1.index;
-        edge.ni2 = vertex2.index;
-    }
-    else
-    {
-        edge.ni1 = vertex2.index;
-        edge.ni2 = vertex1.index;
-    }
-}
-
 void CalculateMinCut::contractEdge(Graph& graph, Graph::Edge& edge)
 {
-    concatinateEdges(graph, edge);
-    destroyVertex(graph, edge);
-    destroySelfLoop(graph);
+    Graph::Vertex vertex_to_save = edge.vertex1;
+    Graph::Vertex vertex_to_destroy = edge.vertex2;
+
+    attachVerticesOfDestroyedVertexToSavedVertex(graph, vertex_to_destroy, vertex_to_save);
+    reatechEdgesFromDestroyedVertexToTheVertexThatIsLeft(graph, vertex_to_destroy, vertex_to_save);
+    destroyVertex(graph, vertex_to_destroy);
+    destroySelfLoops(graph);
 }
 
-void CalculateMinCut::concatinateEdges(Graph& graph, Graph::Edge& edge)
+void CalculateMinCut::attachVerticesOfDestroyedVertexToSavedVertex(Graph& graph, Graph::Vertex& vertex_to_destroy, Graph::Vertex& vertex_to_save)
 {
-    const std::vector<unsigned int> edges_n2(graph.M.at(edge.ni2));
-    graph.M.at(edge.ni1).insert(graph.M.at(edge.ni1).end(), edges_n2.begin(), edges_n2.end() );
+    std::vector<unsigned int> vertices_connected_to_destroyed_vertex = graph.getVerticesConnectedToVertexOfIndex(vertex_to_destroy.index);
+    graph.attachVerticesToVertexOfIndex(vertices_connected_to_destroyed_vertex, vertex_to_save.index);
 }
 
-void CalculateMinCut::destroyVertex(Graph& graph, Graph::Edge& edge)
+void CalculateMinCut::destroyVertex(Graph& graph, Graph::Vertex& vertex_to_destory)
 {
-    const unsigned int vertex_number_that_is_left = graph.getVertexNumber(edge.ni1);
-    const unsigned int vertex_number_to_destroy   = graph.getVertexNumber(edge.ni2);
-
-    // if edge points to destroyed vertex, change the pointing to the combined vertex
-    reatechEdgesFromDestroyedVertexToTheVertexThatIsLeft(graph, vertex_number_to_destroy, vertex_number_that_is_left);
-
-//    // change the number of the vertex in M
-//    for (unsigned int i = 0; i < graph.M.size(); i++)
-//    {
-//        for (unsigned int j = 0; j < graph.M.at(i).size(); j++)
-//        {
-//            if (graph.M[i].at(j) > vertex_number_to_destroy)
-//                graph.M[i].at(j) = graph.M.at(i).at(j) - 1;
-//        }
-//    }
-
-//    // change the number of the vertex in N
-//    for (unsigned int i = vertex_number_to_destroy + 1; i < graph.N.size(); i++)
-//        graph.N.at(i) = graph.N.at(i) - 1;
-
-
-    // erase from N and M vectors
-    graph.N.erase(graph.N.begin() + edge.ni2);
-    graph.M.erase(graph.M.begin() + edge.ni2);
+    graph.removeVertexFromGraph(vertex_to_destory);
 }
 
-void CalculateMinCut::reatechEdgesFromDestroyedVertexToTheVertexThatIsLeft(Graph& graph, unsigned int vertex_number_to_destroy, unsigned int vertex_number_that_is_left)
+void CalculateMinCut::reatechEdgesFromDestroyedVertexToTheVertexThatIsLeft(Graph& graph, const Graph::Vertex& vertex_to_destroy, const Graph::Vertex& vertex_that_is_left)
 {
     for (unsigned int i = 0; i < graph.getNumberOfVertices(); i++)
     {
         for (unsigned int j = 0; j < graph.getNumberOfEdgesFromVertex(i); j++)
         {
-            if (graph.getVertexNumber(i,j) == vertex_number_to_destroy)
-                graph.setVertexNumber(i,j,vertex_number_that_is_left);
+            if (graph.getVertexNumber(i,j) == vertex_to_destroy.number)
+                graph.setVertexNumber(i,j, vertex_that_is_left.number);
         }
     }
 }
 
-
-void CalculateMinCut::destroySelfLoop(Graph& graph)
+void CalculateMinCut::destroySelfLoops(Graph& graph)
 {
-    for (unsigned int i = 0; i < graph.M.size(); i++)
-    {
-        for (unsigned int j = 0; j < graph.M.at(i).size(); j++)
-        {
-            const std::vector<unsigned int>::iterator iterators_to_remove = remove(graph.M.at(i).begin(), graph.M.at(i).end(), graph.N.at(i));
-            graph.M.at(i).erase(iterators_to_remove, graph.M.at(i).end());
-        }
-    }
+    graph.destroySelfLoops();
 }

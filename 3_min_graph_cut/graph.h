@@ -15,36 +15,44 @@ class Graph
 public:
       Graph();
       Graph copy();
+      void copyGraphToInitialState();
       Graph& operator=( const Graph& graph );
+      struct Vertex;
+      struct Edge;
       std::vector<unsigned int> N_init; //vertices
       std::vector<std::vector<unsigned int> > M_init; //edges
-      void copyGraphToInitialState();
-      void printEdges();
-      void printVertices();
-      unsigned int getNumberOfEdges();
-      unsigned int getNumberOfVertices();
-      unsigned int getMinimumCutOneIteration();
-      std::vector<unsigned int> N; //vertices
-      std::vector<std::vector<unsigned int> > M;//edges
-      struct Edge;
-      struct Vertex;
+      void removeVertexFromGraph(const Graph::Vertex& vertex);
+      void attachVerticesToVertexOfIndex(const std::vector<unsigned int>& vertices_to_attach, unsigned int vertex_index);
+      std::vector<unsigned int>  getVerticesConnectedToVertexOfIndex(unsigned int vertex_index);
       unsigned int getNumberOfEdgesFromVertex(unsigned int vertex_index);
       unsigned int getVertexNumber(unsigned int row_index, unsigned int column_index);
       unsigned int getVertexNumber(unsigned int vertices_list_index);
+      unsigned int getNumberOfEdges();
+      unsigned int getNumberOfVertices();
+      unsigned int getMinimumCutOneIteration();
       void setVertexNumber(unsigned int row_index, unsigned int column_index, unsigned int new_value);
+      void printEdges();
+      void printVertices();
+      void destroySelfLoops();
+
     private:
-      void printVectorInt(std::vector<unsigned int>);
+      std::vector<unsigned int> N; //vertices
+      std::vector<std::vector<unsigned int> > M;//edges
+      void printVector(std::vector<unsigned int> vector);
 
-};
 
-struct Graph::Edge{
-    unsigned int ni1;
-    unsigned int ni2;
 };
 
 struct Graph::Vertex{
     unsigned int index;
     unsigned int number;
 };
+
+struct Graph::Edge{
+    Graph::Vertex vertex1;
+    Graph::Vertex vertex2;
+};
+
+
 
 #endif // GRAPH_H
