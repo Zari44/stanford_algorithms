@@ -47,19 +47,6 @@ void InputFileReader::parse_input_line(std::string line, Graph& graph_out)
     // Add head to tail's list.
     graph_out.addEdge(tail, head);
 
-    if (tail % 100000 == 0)
-        cout << "tail: " << tail << endl;
-//	while (this->M.size() <= tail){
-//		vector<unsigned int> empty_vector;
-////		this->M.push_back(empty_vector);
-//		adj.push_back(empty_vector);
-//	}
-//	this->M.at(tail).push_back(head);
-//
-//	while (this->M.size() <= head){
-//		vector<unsigned int> empty_vector;
-//		this->M.push_back(empty_vector);
-//	}
 }
 
 void InputFileReader::open_and_read_input_data_file(const string& input_file_name, Graph& graph_out)

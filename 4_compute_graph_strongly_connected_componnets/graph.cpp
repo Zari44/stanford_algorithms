@@ -135,7 +135,7 @@ unsigned int Graph::DFS(int starting_vertex_index, bool visited[], unsigned int 
 {
     // Mark the current node as visited and print it
     visited[starting_vertex_index] = true;
-    cout << starting_vertex_index << " ";
+//    cout << starting_vertex_index << " ";
     ++scc;
 
     // Recur for all the vertices adjacent to this vertex
@@ -163,64 +163,64 @@ void Graph::addEdge(int tail, int head)
     adjacency[tail].push_back(head);
 }
 
-void Graph::fillOrder(int v, bool visited[], stack<int> &Stack)
-{
-    // Mark the current node as visited
-    visited[v] = true;
+//void Graph::fillOrder(int v, bool visited[], stack<int> &Stack)
+//{
+//    // Mark the current node as visited
+//    visited[v] = true;
 
-    // Recur for all the vertices adjacent to this vertex
-    vector<int>::iterator i;
-    for(i = adjacency[v].begin(); i != adjacency[v].end(); ++i)
-        if(!visited[*i])
-            fillOrder(*i, visited, Stack);
+//    // Recur for all the vertices adjacent to this vertex
+//    vector<int>::iterator i;
+//    for(i = adjacency[v].begin(); i != adjacency[v].end(); ++i)
+//        if(!visited[*i])
+//            fillOrder(*i, visited, Stack);
 
-    // All vertices reachable from v are processed by now, push v
-    Stack.push(v);
-}
+//    // All vertices reachable from v are processed by now, push v
+//    Stack.push(v);
+//}
 
-// The main function that finds and prints all strongly connected
-// components
-void Graph::printSCCs()
-{
-    stack<int> Stack;
-    ofstream outputfile;
-    outputfile.open("output.txt");
+//// The main function that finds and prints all strongly connected
+//// components
+//void Graph::printSCCs()
+//{
+//    stack<int> Stack;
+//    ofstream outputfile;
+//    outputfile.open("output.txt");
 
-    // Mark all the vertices as not visited (For first DFS)
-    bool *visited = new bool[_number_of_vertices];
-    for(int i = 0; i < _number_of_vertices; i++)
-        visited[i] = false;
+//    // Mark all the vertices as not visited (For first DFS)
+//    bool *visited = new bool[_number_of_vertices];
+//    for(int i = 0; i < _number_of_vertices; i++)
+//        visited[i] = false;
 
-    // Fill vertices in stack according to their finishing times
-    for(int i = 0; i < _number_of_vertices; i++)
-        if(visited[i] == false)
-            fillOrder(i, visited, Stack);
+//    // Fill vertices in stack according to their finishing times
+//    for(int i = 0; i < _number_of_vertices; i++)
+//        if(visited[i] == false)
+//            fillOrder(i, visited, Stack);
 
-    // Create a reversed graph
-    Graph gr = getTranspose();
+//    // Create a reversed graph
+//    Graph gr = getTranspose();
 
-    // Mark all the vertices as not visited (For second DFS)
-    for(int i = 0; i < _number_of_vertices; i++)
-        visited[i] = false;
+//    // Mark all the vertices as not visited (For second DFS)
+//    for(int i = 0; i < _number_of_vertices; i++)
+//        visited[i] = false;
 
-    // Now process all vertices in order defined by Stack
-    while (Stack.empty() == false)
-    {
-        // Pop a vertex from stack
-        int v = Stack.top();
-        Stack.pop();
+//    // Now process all vertices in order defined by Stack
+//    while (Stack.empty() == false)
+//    {
+//        // Pop a vertex from stack
+//        int v = Stack.top();
+//        Stack.pop();
 
-        // Print Strongly connected component of the popped vertex
-        if (visited[v] == false)
-        {
-            unsigned int scc = 0;
-            scc = gr.DFS(v, visited, scc);
-            cout << endl;
-            outputfile << scc << endl;
-        }
-    }
-    outputfile.close();
-    cout << "Output file closed\n";
-}
+//        // Print Strongly connected component of the popped vertex
+//        if (visited[v] == false)
+//        {
+//            unsigned int scc = 0;
+//            scc = gr.DFS(v, visited, scc);
+//            cout << endl;
+//            outputfile << scc << endl;
+//        }
+//    }
+//    outputfile.close();
+//    cout << "Output file closed\n";
+//}
 
 

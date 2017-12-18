@@ -7,7 +7,7 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
-#include <stack>
+
 
 using namespace std;
 
@@ -36,27 +36,18 @@ public:
       void destroySelfLoops();
       void addEdge(int tail, int head);
       Graph getTranspose();
-      // new:
-
-      // The main function that finds and prints strongly connected
-      // components
-      void printSCCs();
-
-    private:
       int _number_of_vertices;
       vector<int> *adjacency;    // An array of adjacency lists
+      unsigned int DFS(int starting_vertex_index, bool visited[], unsigned int scc);
+    private:
+
+
       std::vector<unsigned int> N; //vertices
       std::vector<std::vector<unsigned int> > M;//edges
       void printVector(std::vector<unsigned int> vector);
 
-      // Fills Stack with vertices (in increasing order of finishing
-      // times). The top element of stack has the maximum finishing time
-      void fillOrder(int v, bool visited[], stack<int> &Stack);
 
-      // A recursive function to print DFS starting from v
-      unsigned int DFS(int v, bool visited[], unsigned int scc);
-      void parseInputLine(std::string& line);
-      void getVerticesInLine(unsigned int&, unsigned int&, std::string);
+
 };
 
 struct Graph::Vertex{
