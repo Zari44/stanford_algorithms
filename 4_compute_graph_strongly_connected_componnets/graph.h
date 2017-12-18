@@ -16,10 +16,8 @@ class Graph
 public:
     struct Vertex;
     struct Edge;
-      Graph();
-      Graph copy();
+      Graph(int _number_of_vertices);
       Graph(const Graph& graph);
-//      void copyGraphToInitialState();
       Graph& operator=( const Graph& graph );
       void addNewVertex(unsigned int vertex_number);
       void addNewVectorOfVertices(std::vector<unsigned int>& edge_vertices);
@@ -36,26 +34,20 @@ public:
       void printEdges();
       void printVertices();
       void destroySelfLoops();
+      void addEdge(int tail, int head);
+      Graph getTranspose();
       // new:
-      Graph(int _number_of_vertices);
-      Graph(string file_name, int _number_of_vertices);
-      void addEdge(int v, int w);
 
       // The main function that finds and prints strongly connected
       // components
       void printSCCs();
 
-      // Function that returns reverse (or transpose) of this graph
-      Graph getTranspose();
-      vector<int> *adj;    // An array of adjacency lists
     private:
+      int _number_of_vertices;
+      vector<int> *adjacency;    // An array of adjacency lists
       std::vector<unsigned int> N; //vertices
       std::vector<std::vector<unsigned int> > M;//edges
       void printVector(std::vector<unsigned int> vector);
-
-      // new:
-      int _number_of_vertices;
-
 
       // Fills Stack with vertices (in increasing order of finishing
       // times). The top element of stack has the maximum finishing time

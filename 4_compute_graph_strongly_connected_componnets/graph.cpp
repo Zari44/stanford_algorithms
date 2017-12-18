@@ -1,8 +1,9 @@
 #include "graph.h"
 
-Graph::Graph()
+Graph::Graph(int number_of_verices)
+    :   _number_of_vertices(number_of_verices)
 {
-
+    adjacency = new vector<int>[_number_of_vertices];
 }
 
 Graph::Graph(const Graph &graph)
@@ -127,55 +128,49 @@ void Graph::destroySelfLoops()
 
 // new:
 
-Graph::Graph(int number_of_verices)
-    :   _number_of_vertices(number_of_verices)
-{
-    adj = new vector<int>[_number_of_vertices];
-}
+
 
 // A recursive function to print DFS starting from v
-unsigned int Graph::DFS(int v, bool visited[], unsigned int scc)
+unsigned int Graph::DFS(int starting_vertex_index, bool visited[], unsigned int scc)
 {
     // Mark the current node as visited and print it
-    visited[v] = true;
-    cout << v << " ";
-    scc++;
-//    cout << adj[v] << endl;
+    visited[starting_vertex_index] = true;
+    cout << starting_vertex_index << " ";
+    ++scc;
+
     // Recur for all the vertices adjacent to this vertex
-    vector<int>::iterator i;
-    for (i = adj[v].begin(); i != adj[v].end(); ++i)
-        if (!visited[*i])
-            scc = DFS(*i, visited, scc);
+    for (vector<int>::iterator vertex_index = adjacency[starting_vertex_index].begin(); vertex_index != adjacency[starting_vertex_index].end(); ++vertex_index)
+        if (!visited[*vertex_index])
+            scc = DFS(*vertex_index, visited, scc);
 
     return scc;
 }
 
 Graph Graph::getTranspose()
 {
-    Graph g(_number_of_vertices);
-    for (int v = 0; v < _number_of_vertices; v++){
+    Graph graph(_number_of_vertices);
+    for (int vertex_index = 0; vertex_index < _number_of_vertices; ++vertex_index){
         // Recur for all the vertices adjacent to this vertex
-        vector<int>::iterator i;
-        for(i = adj[v].begin(); i != adj[v].end(); ++i){
-            g.adj[*i].push_back(v);
+        for(vector<int>::iterator i = adjacency[vertex_index].begin(); i != adjacency[vertex_index].end(); ++i){
+            graph.adjacency[*i].push_back(vertex_index);
         }
     }
-    return g;
+    return graph;
 }
 
-void Graph::addEdge(int v, int w)
+void Graph::addEdge(int tail, int head)
 {
-    adj[v].push_back(w); // Add w to vs list.
+    adjacency[tail].push_back(head);
 }
 
 void Graph::fillOrder(int v, bool visited[], stack<int> &Stack)
 {
-    // Mark the current node as visited and print it
+    // Mark the current node as visited
     visited[v] = true;
 
     // Recur for all the vertices adjacent to this vertex
     vector<int>::iterator i;
-    for(i = adj[v].begin(); i != adj[v].end(); ++i)
+    for(i = adjacency[v].begin(); i != adjacency[v].end(); ++i)
         if(!visited[*i])
             fillOrder(*i, visited, Stack);
 

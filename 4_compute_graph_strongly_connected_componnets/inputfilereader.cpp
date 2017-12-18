@@ -44,7 +44,8 @@ void InputFileReader::parse_input_line(std::string line, Graph& graph_out)
     str_int = line.substr(0, pos);
     unsigned int head = atoi(str_int.c_str())-1;
 
-    graph_out.adj[tail].push_back(head); // Add head to tailss list.
+    // Add head to tail's list.
+    graph_out.addEdge(tail, head);
 
     if (tail % 100000 == 0)
         cout << "tail: " << tail << endl;
