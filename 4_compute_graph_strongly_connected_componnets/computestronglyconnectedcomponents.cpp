@@ -3,18 +3,18 @@
 #include <iostream>
 using namespace std;
 
-void ComputeStronglyConnectedComponents::fillOrder(Graph& graph, int v, bool visited[], stack<int> &Stack)
+void ComputeStronglyConnectedComponents::fillOrder(Graph& graph, int vertex_index, bool visited[], stack<int> &Stack)
 {
     // Mark the current node as visited
-    visited[v] = true;
+    visited[vertex_index] = true;
 
     // Recur for all the vertices adjacent to this vertex
-    for(vector<int>::iterator i = graph.adjacency[v].begin(); i != graph.adjacency[v].end(); ++i)
+    for(vector<int>::iterator i = graph.adjacency[vertex_index].begin(); i != graph.adjacency[vertex_index].end(); ++i)
         if(!visited[*i])
             fillOrder(graph, *i, visited, Stack);
 
     // All vertices reachable from v are processed by now, push v
-    Stack.push(v);
+    Stack.push(vertex_index);
 }
 
 // The main function that finds and prints all strongly connected

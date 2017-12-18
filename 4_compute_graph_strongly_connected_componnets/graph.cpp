@@ -126,16 +126,11 @@ void Graph::destroySelfLoops()
     }
 }
 
-// new:
-
-
-
 // A recursive function to print DFS starting from v
 unsigned int Graph::DFS(int starting_vertex_index, bool visited[], unsigned int scc)
 {
     // Mark the current node as visited and print it
     visited[starting_vertex_index] = true;
-//    cout << starting_vertex_index << " ";
     ++scc;
 
     // Recur for all the vertices adjacent to this vertex
@@ -149,11 +144,12 @@ unsigned int Graph::DFS(int starting_vertex_index, bool visited[], unsigned int 
 Graph Graph::getTranspose()
 {
     Graph graph(_number_of_vertices);
-    for (int vertex_index = 0; vertex_index < _number_of_vertices; ++vertex_index){
+    for (int vertex_index = 0; vertex_index < _number_of_vertices; ++vertex_index)
+    {
         // Recur for all the vertices adjacent to this vertex
-        for(vector<int>::iterator i = adjacency[vertex_index].begin(); i != adjacency[vertex_index].end(); ++i){
-            graph.adjacency[*i].push_back(vertex_index);
-        }
+        for(vector<int>::iterator i = adjacency[vertex_index].begin(); i != adjacency[vertex_index].end(); ++i)
+            graph.addEdge(*i, vertex_index);
+//            graph.adjacency[*i].push_back(vertex_index);
     }
     return graph;
 }

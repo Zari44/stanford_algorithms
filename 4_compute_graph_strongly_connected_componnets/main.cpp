@@ -1,13 +1,3 @@
-// C++ Implementation of Kosaraju's algorithm to print all SCCs
-#include <iostream>
-#include <list>
-#include <stack>
-
-
-#include <vector>
-#include <fstream>
-#include <string>
-
 #include "inputfilereader.h"
 #include "graph.h"
 #include "computestronglyconnectedcomponents.h"
