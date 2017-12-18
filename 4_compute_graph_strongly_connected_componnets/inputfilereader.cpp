@@ -31,30 +31,34 @@ void InputFileReader::read_input_file_line_by_line(ifstream& input_file, Graph& 
         parse_input_line(input_file_line, graph_out);
 }
 
-void InputFileReader::parse_input_line(std::string line, Graph& graph_out){
-
-    const  std::string delimiter = "\t";
-    // first element is vertex number
+void InputFileReader::parse_input_line(std::string line, Graph& graph_out)
+{
+    const string delimiter = " ";
     size_t pos = line.find(delimiter);
-    {
-        const std::string str_int = line.substr(0, pos);
-        line.erase(0, pos + delimiter.length());
-        const uint vertex = atoi(str_int.c_str());
-        // count vertices from zero
-        graph_out.addNewVertex(vertex);
 
-    }
+    string str_int = line.substr(0, pos);
+    unsigned int tail = atoi(str_int.c_str())-1;
+    line.erase(0, pos + delimiter.length());
 
-    std::vector<unsigned int> edges;
-    while ( (pos = line.find(delimiter)) != std::string::npos){
-        const std::string str_int = line.substr(0, pos);
-        line.erase(0, pos + delimiter.length());
-        const uint vertex = atoi(str_int.c_str());
-        // index vertices from zero
-        edges.push_back(vertex);
-    }
+    pos = line.find(delimiter);
+    str_int = line.substr(0, pos);
+    unsigned int head = atoi(str_int.c_str())-1;
 
-    graph_out.addNewVectorOfVertices(edges);
+    graph_out.adj[tail].push_back(head); // Add head to tailss list.
+
+    if (tail % 100000 == 0)
+        cout << "tail: " << tail << endl;
+//	while (this->M.size() <= tail){
+//		vector<unsigned int> empty_vector;
+////		this->M.push_back(empty_vector);
+//		adj.push_back(empty_vector);
+//	}
+//	this->M.at(tail).push_back(head);
+//
+//	while (this->M.size() <= head){
+//		vector<unsigned int> empty_vector;
+//		this->M.push_back(empty_vector);
+//	}
 }
 
 void InputFileReader::open_and_read_input_data_file(const string& input_file_name, Graph& graph_out)
