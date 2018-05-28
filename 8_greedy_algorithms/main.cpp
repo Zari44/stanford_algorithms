@@ -3,16 +3,23 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
 struct Job{
-    Job() {}
-    vector<int> length;
-    vector<int> weight;
+    int length, weight;
+    bool operator < (const Job& job) const
+    {
+        int diff = weight - length;
+        int job_diff = job.weight - job.length;
+        if (diff == job_diff)
+            return weight > job.weight;
+        return (diff > job_diff);
+    }
 };
 
-void read_file(const char* input_file_name, Job& jobs_data)
+void read_file(const char* input_file_name, vector<Job>& jobs_data)
 {
     ifstream data_file;
     data_file.open(input_file_name);
@@ -30,28 +37,43 @@ void read_file(const char* input_file_name, Job& jobs_data)
         if (job_weight_line != "")
         {
             stringstream line(job_weight_line);
-            int weight, length;
-            line >> weight;
-            line >> length;
+            Job job;
+            line >> job.weight;
+            line >> job.length;
 
-            jobs_data.weight.push_back(weight);
-            jobs_data.length.push_back(length);
+            jobs_data.push_back(job);
         }
     }
 }
 
+unsigned long calculate_sum_of_weighted_completion_time(const vector<Job>& jobs)
+{
+    unsigned long sum = 0;
+    unsigned long completion_time = 0;
+    for (vector<Job>::const_iterator job = jobs.begin(); job != jobs.end(); ++job)
+    {
+        completion_time += job->length;
+        sum += completion_time * job->weight;
+    }
 
-int main(int argc, char *argv[])
+    return sum;
+}
+
+
+int main()
 {
     char intput_file_name[] = "jobs.txt";
-    Job job;
-    read_file(intput_file_name, job);
+    vector<Job> jobs;
+    read_file(intput_file_name, jobs);
 
-//    for (int i = 0; i < job.length.size(); ++i)
-//        cout << job.weight[i] << " " << job.length[i] << endl;
+    sort(jobs.begin(), jobs.end());
 
-    cout << "Length: " << job.length.size() << endl;
+    for (int i = 0; i < jobs.size()/10; ++i)
+        cout << jobs[i].weight << " " << jobs[i].length << endl;
 
+//    cout << "Length: " << jobs.size() << endl;
+
+    cout << "Sum of weighted completion times: " << calculate_sum_of_weighted_completion_time(jobs) << endl;
 
 
     return 0;
